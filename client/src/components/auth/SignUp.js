@@ -20,6 +20,7 @@ class SignUp extends Component {
       <Form onSubmit={ handleSubmit(this.handleFormSubmit.bind(this)) }>
         <Field name="email" component={ TextField } label="Email:"/>
         <Field name="password" component={ TextField } type="password" label="Password:"/>
+        <Field name="passwordConfirm" component={ TextField } type="password" label="Confirm Password:"/>
 
         <ErrorMsg errorMessage={ this.props.errorMessage }/>
 
@@ -29,13 +30,36 @@ class SignUp extends Component {
   }
 }
 
+function validate (formProps) {
+  const errors = {}
+
+  if (!formProps.email) {
+    errors.email = "Please enter email"
+  }
+
+  if (!formProps.password) {
+    errors.password = "Please enter a password"
+  }
+
+  if (!formProps.passwordConfirm) {
+    errors.passwordConfirm = "Please enter a password confirmation"
+  }
+
+  if (formProps.password !== formProps.passwordConfirm) {
+    errors.password = 'Passwords should match'
+  }
+
+  return errors
+}
+
 const mapStateToProps = state => ({
   formValues: getFormValues('signup')(state),
   errorMessage: state.auth.error
 });
 const formConfiguration = {
   form: 'signup',
-  fields: ['email', 'password']
+  fields: ['email', 'password', 'passwordConfirm'],
+  validate
 }
 
 export default connect(mapStateToProps, actions)(reduxForm(formConfiguration)(SignUp))
