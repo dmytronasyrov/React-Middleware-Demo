@@ -7,10 +7,10 @@ import * as actions from '../../actions'
 import TextField from '../UI/TextField'
 import ErrorMsg from '../UI/ErrorMsg'
 
-class SignIn extends Component {
+class SignUp extends Component {
 
   handleFormSubmit({ email, password }) {
-    this.props.signInUser({ email, password })
+    this.props.signUpUser({ email, password })
   }
 
   render () {
@@ -23,19 +23,19 @@ class SignIn extends Component {
 
         <ErrorMsg errorMessage={ this.props.errorMessage }/>
 
-        <button action="submit" className="btn btn-primary">Sign In</button>
+        <button action="submit" className="btn btn-primary">Sign Up</button>
       </Form>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  formValues: getFormValues('signin')(state),
+  formValues: getFormValues('signup')(state),
   errorMessage: state.auth.error
 });
 const formConfiguration = {
-  form: 'signin',
+  form: 'signup',
   fields: ['email', 'password']
 }
 
-export default connect(mapStateToProps, actions)(reduxForm(formConfiguration)(SignIn))
+export default connect(mapStateToProps, actions)(reduxForm(formConfiguration)(SignUp))
