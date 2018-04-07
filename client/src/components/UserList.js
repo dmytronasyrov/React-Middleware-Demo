@@ -6,6 +6,7 @@ import * as actions from '../actions'
 class UserList extends Component {
 
   componentWillMount () {
+    this.props.fetchMessage()
     this.props.fetchUsers()
   }
 
@@ -21,15 +22,21 @@ class UserList extends Component {
 
   render () {
     return (
-      <div className="user-list">
-        { this.props.users.map(this.renderUser) }
+      <div>
+        <h3>{ this.props.message }</h3>
+        <div className="user-list">
+          { this.props.users.map(this.renderUser) }
+        </div>
       </div>
     )
   }
 }
 
 function mapStateToProps (state) {
-  return { users: state.users }
+  return {
+    users: state.users,
+    message: state.auth.message
+  }
 }
 
 export default connect(mapStateToProps, actions)(UserList)
